@@ -68,8 +68,9 @@ Budget: T1 ≈ 75 credits, T2/T3 ≈ 10 credits each; T4–T10 need no generatio
 
 ## T11 — No Higgsfield connector (run on an account without HF MCP)
 **Prompt:** `ทำ character sheet ให้ตัวนี้` + any AI portrait
-- [ ] Stops before any work and tells the user to connect the Higgsfield connector, then start a new chat
-- [ ] ❌ fail if it switches to another image tool or "describes" the sheet instead
+- [ ] If Nano Banana 2.1 is reachable another way (e.g. ComfyUI Cloud, fal), adapts, says what it changed, estimates cost, and keeps prompts/grid/QA unchanged
+- [ ] If no route to Nano Banana 2.1 exists, stops and tells the user to connect Higgsfield, then start a new chat
+- [ ] ❌ fail if it switches to a different image model
 
 ## T12 — Empty start
 **Prompt:** `อยากทำ character sheet ใหม่` (no image)

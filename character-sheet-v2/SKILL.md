@@ -9,10 +9,18 @@ Pipeline: preflight → intake → (blend) → clean master → 3 sheets (A/B/C)
 Everything needed is in this file. Do not rely on earlier chats or on who the user is: any team member running this skill must get the same kind of result. Follow the fixed settings exactly; do not swap models, aspect ratios or prompts.
 Show images, keep text short. Reply in the user's language (casual Thai by default) with English technical terms.
 
+## Fixed vs adaptable
+This skill is written for Claude + the Higgsfield connector, but any agent in any setup may run it by adapting the tooling. What makes two runs match is the **fixed** part; the rest is plumbing.
+- **Fixed (never change):** the model (Nano Banana 2.1) with the resolution and aspect ratio in the Fixed settings table; the clean master as the only reference for the sheets; the prompts word for word; the standard grid with no full-body panels; the QA thresholds; the deliverables.
+- **Adaptable:** which service runs the model (Higgsfield, ComfyUI Cloud, fal or another provider), how images are uploaded, how the scripts are run (e.g. without `-I` if that hides installed packages), and any helper script you need to write.
+- When you adapt, say in one line what you changed. Before paid generation on a provider without fixed prices, estimate the cost, keep a running total and stop before going past the user's budget.
+- If Nano Banana 2.1 can't be reached anywhere in your setup, stop and say so; do not swap in another image model.
+- The final Soul 2.0 character is always created in Higgsfield by the user (Step 6), whatever ran the generation.
+
 ## Step 0 — Preflight (always first)
 1. **Higgsfield connector.** Check that the Higgsfield (HF) MCP tools are available (`generate_image_batch`, `jobs_wait`, `media_upload`, `media_confirm`, `manage_reference_elements`; load them with tool search if they are deferred).
-   - If they are missing, stop and tell the user in one short message: this skill needs the Higgsfield connector; connect it in Claude (Settings → Connectors → add Higgsfield, sign in with the SHER Higgsfield account), then start a new chat and run the request again. Do not try another image tool instead.
-2. **Sandbox network access.** The sandbox must reach Higgsfield to upload images (`curl PUT`) and download results. Test once:
+   - If they are missing but you can run Nano Banana 2.1 another way, adapt (see Fixed vs adaptable) and say so in one line. If you can't, stop and tell the user in one short message: connect the Higgsfield connector in Claude (Settings → Connectors → add Higgsfield, sign in with the SHER Higgsfield account), then start a new chat and run the request again.
+2. **Sandbox network access (Higgsfield setup).** The sandbox must reach Higgsfield to upload images (`curl PUT`) and download results. Test once:
    `curl -s -o /dev/null -w "%{http_code}" https://upload.higgsfield.ai` and the same for `https://d8j0ntlcm91z4.cloudfront.net` (a real HTTP response = reachable; `000`, a connection error or a proxy refusal = blocked).
    - If blocked, tell the user in one short message to set Claude's network access to **allow all domains** (Settings → Capabilities → code execution / network access → All domains; on Team/Enterprise an admin sets it in Admin settings → Capabilities), then start a new chat. Do not suggest a domain allowlist: Higgsfield serves storage from many changing subdomains, so a list breaks.
    - Until it is allowed, fall back to `media_upload_widget` so the user uploads each image to Higgsfield by hand, and say face QA may be unavailable.
@@ -80,7 +88,11 @@ Shared tail:
 ## Step 5 — Grid check + QA
 1. **Look at every sheet yourself first.** Count cells and check each matches its slot. Wrong cell count, a repeated angle or expression, a missing direction, empty gaps, text, jewellery or any full body → **redo that sheet** with the same prompt (up to 2 retries). Never patch a wrong grid with `LAYOUT` and ship it.
 2. Put `master.png`, `A.png`, `B.png`, `C.png` in one folder, run `sheet_qa.py`.
-3. Pass: front-facing and expression cells ≥ 0.6 (typical 0.7–0.9); profile 0.38–0.6 is normal; back has no face. A front-facing cell under 0.363 → redo that sheet. Send the QA board.
+3. Score bands for front-facing and expression cells:
+   - **≥ 0.6: pass** (typical 0.7–0.9).
+   - **0.363–0.6: pass with a note.** Do not redo automatically; list those cells to the user and ask them to check by eye before uploading.
+   - **< 0.363: fail**, redo that sheet.
+   Profile cells at 0.3–0.6 are normal (the detector is weak on side views; check them by eye); the back has no face. Send the QA board.
 4. If the scripts can't run (no Python, models can't download), do the visual check only and say in one line that face scores are unavailable.
 
 ## Step 6 — Combined sheet + Soul 2.0 handoff
@@ -136,7 +148,8 @@ If the `scripts/` folder is missing (skill installed as SKILL.md only), write th
 | TSV 30 rows × 2 columns, Sunburst medium | ≤ 60 (blocked jobs not charged) |
 
 ## Rules
-- Preflight first: no Higgsfield connector → stop and explain how to connect; sandbox can't reach Higgsfield → tell the user to allow all domains.
+- Preflight first: no Higgsfield connector → adapt with Nano Banana 2.1 elsewhere or stop and explain how to connect; sandbox can't reach Higgsfield → tell the user to allow all domains.
+- Adapt the tooling, never the fixed part (model, prompts, grid, QA, deliverables).
 - Only AI or SHER-owned characters; never a real person's face.
 - Fixed settings and the standard grid, no full-body panels.
 - Never drop TSV rows. Never switch Elements ↔ attached images without saying so.
