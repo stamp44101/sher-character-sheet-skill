@@ -31,14 +31,14 @@ If the user starts without an image, reply with this checklist (short) and wait:
 
 | Send this | What happens |
 |---|---|
-| **A. One AI character image** (portrait or half body, face clear, front or near-front) | Used as the master source |
+| **A. One character image**: AI character or a real model's photo (portrait or half body, face clear, front or near-front) | Used as the master source |
 | **B. An old character sheet** (e.g. V1) | Crop the clearest front / close-up panel and use it as the master source |
 | **C. 2–4 AI character images and "blend"** (can't decide a base) | Step 2 blend board, the user picks one |
 | **Character name** (required), e.g. `Amara2` | Used for file names and the Soul 2.0 character name |
 | Optional: hair change, age, vibe notes | Added to the master edit |
 
 Rules for inputs:
-- Only AI-generated characters or characters SHER already owns. **Never** build a character from a photo of a real person (celebrity, influencer, friend, stock model). If an image looks like a real person's photo, say you can't use it and ask for an AI character instead.
+- Any character source works: an AI character, a character SHER already owns, or a photo of a real model the team works with. No consent check is needed. The one exception: don't build a character from a celebrity or public figure.
 - Low-resolution or tiny images are fine for the master edit; blurry faces with eyes closed or heavy occlusion are not. Ask for another image in that case.
 - If the name is missing, ask for it in one line and keep going with everything else.
 
@@ -150,7 +150,7 @@ If the `scripts/` folder is missing (skill installed as SKILL.md only), write th
 ## Rules
 - Preflight first: no Higgsfield connector → adapt with Nano Banana 2.1 elsewhere or stop and explain how to connect; sandbox can't reach Higgsfield → tell the user to allow all domains.
 - Adapt the tooling, never the fixed part (model, prompts, grid, QA, deliverables).
-- Only AI or SHER-owned characters; never a real person's face.
+- AI characters and the team's real models are both fine; no celebrities or public figures.
 - Fixed settings and the standard grid, no full-body panels.
 - Never drop TSV rows. Never switch Elements ↔ attached images without saying so.
 - Facts about what a model supports come from a test, not the tool doc.
