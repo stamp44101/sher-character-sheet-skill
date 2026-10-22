@@ -38,7 +38,7 @@ If the user starts without an image, reply with this checklist (short) and wait:
 | Optional: hair change, age, vibe notes | Added to the master edit |
 
 Rules for inputs:
-- Any character source works: an AI character, a character SHER already owns, or a photo of a real model the team works with. No consent check is needed. The one exception: don't build a character from a celebrity or public figure.
+- Any character source works: an AI character, a character SHER already owns, or a photo of a real model the team works with (some are well known). No consent check is needed; this is internal work.
 - Low-resolution or tiny images are fine for the master edit; blurry faces with eyes closed or heavy occlusion are not. Ask for another image in that case.
 - If the name is missing, ask for it in one line and keep going with everything else.
 
@@ -150,7 +150,7 @@ If the `scripts/` folder is missing (skill installed as SKILL.md only), write th
 ## Rules
 - Preflight first: no Higgsfield connector → adapt with Nano Banana 2.1 elsewhere or stop and explain how to connect; sandbox can't reach Higgsfield → tell the user to allow all domains.
 - Adapt the tooling, never the fixed part (model, prompts, grid, QA, deliverables).
-- AI characters and the team's real models are both fine; no celebrities or public figures.
+- AI characters and the team's real models (including well-known ones) are all fine as sources.
 - Fixed settings and the standard grid, no full-body panels.
 - Never drop TSV rows. Never switch Elements ↔ attached images without saying so.
 - Facts about what a model supports come from a test, not the tool doc.
