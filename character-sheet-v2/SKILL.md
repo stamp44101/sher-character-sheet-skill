@@ -1,6 +1,6 @@
 ---
 name: character-sheet-v2
-description: Build a SHER KOL character sheet V2 (ready for a Higgsfield Soul 2.0 character) from an AI character image, an old sheet, or a blend of AI characters; optionally run a scene TSV. Use for any character sheet, blend or TSV test request.
+description: Build a SHER KOL character sheet V2 (ready for a Higgsfield Soul 2.0 character) from an AI character or a real model's photo, an old sheet, or a blend; optionally run a scene TSV. Use for any character sheet, blend or TSV test request.
 ---
 
 # Character Sheet V2
